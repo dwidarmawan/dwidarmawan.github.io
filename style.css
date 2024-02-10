@@ -119,6 +119,7 @@
     max-width: 100%;
     text-align: center;
     overflow: hidden;
+    z-index: 2;
   }
 
   .teksThree {
