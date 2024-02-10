@@ -1,12 +1,11 @@
 var oneButton = document.getElementById("oneButton");
 var twoButton = document.getElementById("twoButton");
 var one = document.getElementById("one");
-var two = document.getElementById("two");
+var containerTwo = document.querySelector(".container-Two");
 
 oneButton.addEventListener("click", function() {
-  console.log("Tombol satu ditekan");
-  one.style.display = "none";
-  two.style.display = "block";
+  document.getElementById("one").style.display = "none";
+  containerTwo.style.display = "block";
 });
 
 twoButton.addEventListener("click", function() {
