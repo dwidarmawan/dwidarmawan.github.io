@@ -4,6 +4,30 @@ var one = document.getElementById("one");
 var containerTwo = document.querySelector(".container-Two");
 var containerThree = document.querySelector(".container-Three");
 
+
+var texts = document.querySelectorAll(".container-Three > h2");
+
+for (var i = 1; i < texts.length; i++) {
+  texts[i].style.display = "none";
+}
+
+var currentIndex = 0;
+
+function showNextText() {
+
+  texts[currentIndex].style.display = "none";
+
+  currentIndex = (currentIndex + 1) % texts.length;
+
+  texts[currentIndex].style.display = "block";
+}
+
+
+setInterval(showNextText, 8000);
+
+
+
+
 oneButton.addEventListener("click", function() {
   document.getElementById("one").style.display = "none";
   containerTwo.style.display = "block";
