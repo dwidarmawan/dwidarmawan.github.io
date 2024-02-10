@@ -4,11 +4,13 @@ var one = document.getElementById("one");
 var two = document.getElementById("two");
 
 oneButton.addEventListener("click", function() {
+  console.log("Tombol satu ditekan");
   one.style.display = "none";
   two.style.display = "block";
 });
 
 twoButton.addEventListener("click", function() {
+  console.log("Tombol dua ditekan");
   alert("Tombol kedua ditekan!");
 });
 
