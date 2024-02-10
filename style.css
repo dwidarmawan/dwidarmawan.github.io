@@ -1,0 +1,187 @@
+  body {
+    background-color: #000000;
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .teksOne {
+    font-size: 80px;
+    color: #ffffff;
+    text-align: center;
+  }
+
+  .teksTwo {
+    text-align: center;
+    font-size: 45px;
+    color: #ffffff;
+  }
+
+  .oneTombol {
+    background-color: #09bffb;
+    border: 2px solid #ffffff;
+    color: #000000;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .teksOne,
+  .teksThree {
+    animation: rainbow 3s infinite alternate;
+  }
+
+  @keyframes rainbow {
+    0% {
+      color: red;
+    }
+
+    20% {
+      color: orange;
+    }
+
+    40% {
+      color: yellow;
+    }
+
+    60% {
+      color: green;
+    }
+
+    80% {
+      color: blue;
+    }
+
+    100% {
+      color: violet;
+    }
+  }
+
+  .blink-text {
+    animation: blink 2s infinite;
+  }
+
+  @keyframes blink {
+    0% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+  .fade-in-button {
+    opacity: 0;
+    animation: fadeInButtonAnimation 2s ease-in forwards;
+    animation-delay: 3s;
+  }
+
+  @keyframes fadeInButtonAnimation {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  /*==========================================================*/
+
+  .container-Two {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    text-align: center;
+    overflow: hidden;
+
+  }
+
+  .teksThree {
+    text-align: center;
+    font-size: 50px;
+    color: #ffffff;
+  }
+
+  .teksFour {
+    text-align: center;
+    font-size: 25px;
+    color: #ffffff;
+  }
+
+  .teksFive {
+    text-align: center;
+    font-size: 25px;
+    color: #ffffff;
+  }
+
+  .twoTombol {
+    background-color: #09bffb;
+    border: 2px solid #ffffff;
+    color: #000000;
+    padding: 15px 25px;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+
+  .fade-in-newbutton {
+    opacity: 0;
+    animation: fadeInButtonNewAnimation 2s ease-in forwards;
+    animation-delay: 3s;
+  }
+
+  @keyframes fadeInButtonNewAnimation {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fade-in {
+    opacity: 0;
+    animation: fadeInAnimation 2s ease-in forwards;
+    animation-delay: 3s;
+  }
+
+  @keyframes fadeInAnimation {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .fade-in-two {
+    opacity: 0;
+    animation: fadeInAnimationTwo 2s ease-in forwards;
+    animation-delay: 8s;
+  }
+
+  @keyframes fadeInAnimationTwo {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
