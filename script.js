@@ -1,190 +1,118 @@
 var oneButton = document.getElementById("oneButton");
 oneButton.addEventListener("click", function() {
   one.style.display = "none";
-  canvas.style.display = "block";
+  two.style.display = "block";
 });
 
 
-(function() {
-  'use strict';
+var c = document.getElementById("Canvas");
+var ctx = c.getContext("2d");
 
-  var canvas = document.querySelector('canvas'),
-    ctx = canvas.getContext('2d'),
-    W = canvas.width = window.innerWidth,
-    H = canvas.height = window.innerHeight,
-    maxP = 100,
-    minP = 100,
-    fireworks = [];
+var cwidth, cheight;
+var shells = [];
+var pass = [];
 
-  function tick() {
-    var newFireworks = [];
-    ctx.clearRect(0, 0, W, H);
+var colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF', '#18FFFF', '#64FFDA', '#69F0AE', '#B2FF59', '#EEFF41', '#FFFF00', '#FFD740', '#FFAB40', '#FF6E40'];
 
-    fireworks.forEach(function(firework) {
-      firework.draw();
-      if (!firework.done) newFireworks.push(firework);
-    });
+window.onresize = function() { reset(); }
+reset();
+function reset() {
 
-    fireworks = newFireworks;
-    window.requestAnimationFrame(tick);
+  cwidth = window.innerWidth;
+  cheight = window.innerHeight;
+  c.width = cwidth;
+  c.height = cheight;
+}
+
+function newShell() {
+
+  var left = (Math.random() > 0.5);
+  var shell = {};
+  shell.x = (1 * left);
+  shell.y = 1;
+  shell.xoff = (0.01 + Math.random() * 0.007) * (left ? 1 : -1);
+  shell.yoff = 0.01 + Math.random() * 0.007;
+  shell.size = Math.random() * 6 + 3;
+  shell.color = colors[Math.floor(Math.random() * colors.length)];
+
+  shells.push(shell);
+}
+
+function newPass(shell) {
+
+  var pasCount = Math.ceil(Math.pow(shell.size, 2) * Math.PI);
+
+  for (i = 0; i < pasCount; i++) {
+
+    var pas = {};
+    pas.x = shell.x * cwidth;
+    pas.y = shell.y * cheight;
+
+    var a = Math.random() * 4;
+    var s = Math.random() * 10;
+
+    pas.xoff = s * Math.sin((5 - a) * (Math.PI / 2));
+    pas.yoff = s * Math.sin(a * (Math.PI / 2));
+
+    pas.color = shell.color;
+    pas.size = Math.sqrt(shell.size);
+
+    if (pass.length < 1000) { pass.push(pas); }
   }
+}
 
-  function Vector(x, y) {
-    this.x = x;
-    this.y = y;
-  }
+var lastRun = 0;
+Run();
+function Run() {
 
-  Vector.prototype = {
-    constructor: Vector,
+  var dt = 1;
+  if (lastRun != 0) { dt = Math.min(50, (performance.now() - lastRun)); }
+  lastRun = performance.now();
 
-    add: function(vector) {
-      this.x += vector.x;
-      this.y += vector.y;
-    },
+  //ctx.clearRect(0, 0, cwidth, cheight);
+  ctx.fillStyle = "rgba(0,0,0,0.25)";
+  ctx.fillRect(0, 0, cwidth, cheight);
 
-    diff: function(vector) {
-      var target = this.copy();
-      return Math.sqrt(
-        (target.x -= vector.x) * target.x + (target.y -= vector.y) * target.y
-      );
-    },
+  if ((shells.length < 10) && (Math.random() > 0.96)) { newShell(); }
 
-    copy: function() {
-      return new Vector(this.x, this.y);
+  for (let ix in shells) {
+
+    var shell = shells[ix];
+
+    ctx.beginPath();
+    ctx.arc(shell.x * cwidth, shell.y * cheight, shell.size, 0, 2 * Math.PI);
+    ctx.fillStyle = shell.color;
+    ctx.fill();
+
+    shell.x -= shell.xoff;
+    shell.y -= shell.yoff;
+    shell.xoff -= (shell.xoff * dt * 0.001);
+    shell.yoff -= ((shell.yoff + 0.2) * dt * 0.00005);
+
+    if (shell.yoff < -0.005) {
+      newPass(shell);
+      shells.splice(ix, 1);
     }
-  };
+  }
 
-  var colors = [
-    ['rgba(179,255,129,', 'rgba(0,255,0,'], //green / white
-    ['rgba(0,0,255,', 'rgba(100,217,255,'], //blue / cyan
-    ['rgba(255,0,0,', 'rgba(255,255,0,'], //red / yellow
-    ['rgba(145,0,213,', 'rgba(251,144,204,'] //purple / pink
-  ];
+  for (let ix in pass) {
 
-  function Firework(start, target, speed) {
-    this.start = start;
-    this.pos = this.start.copy();
-    this.target = target;
-    this.spread = Math.round(Math.random() * (maxP - minP)) + minP;
-    this.distance = target.diff(start);
-    this.speed = speed || Math.random() * 5 + 10;
-    this.angle = Math.atan2(target.y - start.y, target.x - start.x);
-    this.velocity = new Vector(
-      Math.cos(this.angle) * this.speed,
-      Math.sin(this.angle) * this.speed
-    );
+    var pas = pass[ix];
 
-    this.particals = [];
-    this.prevPositions = [];
+    ctx.beginPath();
+    ctx.arc(pas.x, pas.y, pas.size, 0, 2 * Math.PI);
+    ctx.fillStyle = pas.color;
+    ctx.fill();
 
-    var colorSet = colors[Math.round(Math.random() * (colors.length - 1))];
+    pas.x -= pas.xoff;
+    pas.y -= pas.yoff;
+    pas.xoff -= (pas.xoff * dt * 0.001);
+    pas.yoff -= ((pas.yoff + 5) * dt * 0.0005);
+    pas.size -= (dt * 0.002 * Math.random())
 
-    for (var i = 0; i < this.spread; i++) {
-      this.particals.push(new Partical(target.copy(), colorSet));
+    if ((pas.y > cheight) || (pas.y < -50) || (pas.size <= 0)) {
+      pass.splice(ix, 1);
     }
   }
-
-  Firework.prototype = {
-    constructor: Firework,
-
-    draw: function() {
-      var last = this.prevPositions[this.prevPositions.length - 1] || this.pos;
-
-      ctx.beginPath();
-      ctx.moveTo(last.x, last.y);
-      ctx.lineTo(this.pos.x, this.pos.y);
-      ctx.strokeStyle = 'rgba(255,255,255,.7)';
-      ctx.stroke();
-
-      this.update();
-    },
-
-    update: function() {
-      if (this.start.diff(this.pos) >= this.distance) {
-        var newParticals = [];
-        this.particals.forEach(function(partical) {
-          partical.draw();
-          if (!partical.done) newParticals.push(partical);
-        });
-
-        this.particals = newParticals;
-        this.prevPositions = [];
-
-        if (!newParticals.length) this.done = true;
-      } else {
-        this.prevPositions.push(this.pos.copy());
-
-        if (this.prevPositions.length > 5) {
-          this.prevPositions.shift();
-        }
-
-        this.pos.add(this.velocity);
-      }
-    }
-  };
-
-  function Partical(pos, colors) {
-    this.pos = pos;
-    this.ease = 0.2;
-    this.speed = Math.random() * 3 + 2;
-    this.gravity = Math.random() * 2 + 0.1;
-    this.alpha = .8;
-    this.angle = Math.random() * (Math.PI * 2);
-    this.color = colors[Math.round(Math.random() * (colors.length - 1))];
-    this.prevPositions = [];
-  }
-
-  Partical.prototype = {
-    constructor: Partical,
-
-    draw: function() {
-      var last = this.prevPositions[this.prevPositions.length - 1] || this.pos;
-
-      ctx.beginPath();
-      ctx.moveTo(last.x, last.y);
-      ctx.lineTo(this.pos.x, this.pos.y);
-      ctx.strokeStyle = this.color + this.alpha + ')';
-      ctx.stroke();
-
-      this.update();
-    },
-
-    update: function() {
-      if (this.alpha <= 0) {
-        this.done = true;
-      } else {
-        this.prevPositions.push(this.pos.copy());
-
-        if (this.prevPositions.length > 10) this.prevPositions.shift();
-        if (this.speed > 1) this.speed -= this.ease;
-
-        this.alpha -= 0.01;
-        this.gravity += 0.01;
-
-        this.pos.add({
-          x: Math.cos(this.angle) * this.speed,
-          y: Math.sin(this.angle) * this.speed + this.gravity
-        });
-      }
-    }
-  };
-
-  function addFirework(target) {
-    var startPos = new Vector(W / 2, H);
-    target = target || new Vector(Math.random() * W, Math.random() * (H - 100));
-    fireworks.push(new Firework(startPos, target));
-  }
-
-  canvas.addEventListener('click', function(e) {
-    addFirework(new Vector(e.clientX, e.clientY))
-  }, false);
-
-  function randomFirework() {
-    addFirework();
-    window.setTimeout(randomFirework, Math.random() * 100);
-  }
-
-  tick();
-  randomFirework();
-
-})();
+  requestAnimationFrame(Run);
+}
