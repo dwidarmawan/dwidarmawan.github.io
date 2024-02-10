@@ -4,7 +4,6 @@ var one = document.getElementById("one");
 var containerTwo = document.querySelector(".container-Two");
 var containerThree = document.querySelector(".container-Three");
 
-
 var texts = document.querySelectorAll(".container-Three > h2");
 
 for (var i = 1; i < texts.length; i++) {
@@ -14,19 +13,15 @@ for (var i = 1; i < texts.length; i++) {
 var currentIndex = 0;
 
 function showNextText() {
+  // Jika teks saat ini adalah teks terakhir, maka tidak melakukan apapun
+  if (currentIndex === texts.length - 1) {
+    return;
+  }
 
   texts[currentIndex].style.display = "none";
-
   currentIndex = (currentIndex + 1) % texts.length;
-
   texts[currentIndex].style.display = "block";
 }
-
-
-setInterval(showNextText, 8000);
-
-
-
 
 oneButton.addEventListener("click", function() {
   document.getElementById("one").style.display = "none";
@@ -36,6 +31,9 @@ oneButton.addEventListener("click", function() {
 twoButton.addEventListener("click", function() {
   document.getElementById("two").style.display = "none";
   containerThree.style.display = "block";
+
+  // Menjalankan interval showNextText() setelah tombol kedua ditekan
+  setInterval(showNextText, 6000);
 });
 
 
@@ -61,8 +59,6 @@ function geserSlideOtomatis() {
 }
 
 setInterval(geserSlideOtomatis, 3000);
-
-
 
 
 
