@@ -108,8 +108,11 @@
     max-width: 100%;
     text-align: center;
     overflow: hidden;
-
   }
+
+canvas {
+  display: block;
+}
 
   .teksThree {
     text-align: center;
