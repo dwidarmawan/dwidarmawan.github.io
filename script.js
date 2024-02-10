@@ -2,6 +2,7 @@ var oneButton = document.getElementById("oneButton");
 var twoButton = document.getElementById("twoButton");
 var one = document.getElementById("one");
 var containerTwo = document.querySelector(".container-Two");
+var containerThree = document.querySelector(".container-Three");
 
 oneButton.addEventListener("click", function() {
   document.getElementById("one").style.display = "none";
@@ -9,9 +10,36 @@ oneButton.addEventListener("click", function() {
 });
 
 twoButton.addEventListener("click", function() {
-  console.log("Tombol dua ditekan");
-  alert("Tombol kedua ditekan!");
+  document.getElementById("two").style.display = "none";
+  containerThree.style.display = "block";
 });
+
+
+let slideIndex = 0;
+tampilkanSlide(slideIndex);
+
+function gantiSlide(n) {
+  tampilkanSlide(slideIndex += n);
+}
+
+function tampilkanSlide(n) {
+  let slides = document.getElementsByClassName("slide");
+  if (n >= slides.length) { slideIndex = 0 }
+  if (n < 0) { slideIndex = slides.length - 1 }
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";
+  }
+  slides[slideIndex].style.display = "block";
+}
+
+function geserSlideOtomatis() {
+  gantiSlide(1);
+}
+
+setInterval(geserSlideOtomatis, 3000);
+
+
+
 
 
 var c = document.getElementById("Canvas");
