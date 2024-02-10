@@ -1,7 +1,15 @@
 var oneButton = document.getElementById("oneButton");
+var twoButton = document.getElementById("twoButton");
+var one = document.getElementById("one");
+var two = document.getElementById("two");
+
 oneButton.addEventListener("click", function() {
   one.style.display = "none";
   two.style.display = "block";
+});
+
+twoButton.addEventListener("click", function() {
+  alert("Tombol kedua ditekan!");
 });
 
 
