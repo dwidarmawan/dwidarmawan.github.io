@@ -231,20 +231,20 @@
 
   @keyframes fade {
     from {
-      opacity: 0.3;
+      opacity: 0.5;
     }
 
     to {
-      opacity: 0.3;
+      opacity: 0.5;
     }
   }
 
   @keyframes fadeInOut {
     from {
-      opacity: 0.3;
+      opacity: 0.5;
     }
 
     to {
-      opacity: 0.3;
+      opacity: 0.5;
     }
   }
