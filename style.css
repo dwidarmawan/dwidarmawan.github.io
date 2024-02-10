@@ -1,6 +1,16 @@
-@import "compass/css3";
-body {
+  body {
     background-color: #000000;
+    color: #fff;
+    text-align: center;
+  }
+
+  canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
   }
 
   .container {
@@ -110,10 +120,6 @@ body {
     text-align: center;
     overflow: hidden;
   }
-
-canvas {
-  display: block;
-}
 
   .teksThree {
     text-align: center;
