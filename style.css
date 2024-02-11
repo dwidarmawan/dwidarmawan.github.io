@@ -140,7 +140,7 @@
     color: #ffffff;
   }
 
-  .twoTombol {
+  #two button {
     background-color: #09bffb;
     border: 2px solid #ffffff;
     color: #000000;
@@ -149,13 +149,13 @@
     border-radius: 10px;
   }
 
-  .fade-in-newbutton {
+  .fade-in-newButton {
     opacity: 0;
-    animation: fadeInButtonNewAnimation 2s ease-in forwards;
-    animation-delay: 3s;
+    animation: fadeInAnimationNewButton 2s ease-in forwards;
+    animation-delay: 10s;
   }
 
-  @keyframes fadeInButtonNewAnimation {
+  @keyframes fadeInAnimationNewButton {
     from {
       opacity: 0;
     }
